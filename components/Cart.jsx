@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRef } from 'react';
 import Link from 'next/link';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping} from 'react-icons/ai';
@@ -9,7 +10,7 @@ import { urlFor } from '../lib/client';
 
 const Cart = () => {
   const cartRef = useRef();
-  const { totalPrice, totalQuantities, cartItems, setShowCart} = useStateContext();
+  const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuantity} = useStateContext();
 
   return (
     <div className='cart-wrapper' ref={cartRef}>
@@ -38,7 +39,7 @@ const Cart = () => {
         <div className='product-container'>
           {cartItems.length >= 1 && cartItems.map((item) => (
             <div className='product' key={item._id}>
-              <img src={urlFor(item?.image[0])} className='cart-product-image'/>
+              <img alt='' src={urlFor(item?.image[0])} className='cart-product-image'/>
               <div className='item-desc'>
                 <div className='flex top'>
                   <h5>{item.name}</h5>
@@ -47,9 +48,9 @@ const Cart = () => {
                 <div className='flex bottom'>
                   <div>
                     <p className='quantity-desc'>
-                      <span className='minus' onClick=''><AiOutlineMinus /></span>
+                      <span className='minus' onClick={() => toggleCartItemQuantity(item._id, 'dec')}><AiOutlineMinus /></span>
                       <span className='num' onClick=''>{item.quantity}</span>
-                      <span className='plus' onClick=''><AiOutlinePlus /></span>
+                      <span className='plus' onClick={() => toggleCartItemQuantity(item._id, 'inc')}><AiOutlinePlus /></span>
                     </p>
                   </div>
                   <button
